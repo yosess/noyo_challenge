@@ -39,7 +39,7 @@ def get_address(args, person_id):
     elif len(person.address_segments) == 0:
         abort(404, description="person does not have an address, please create one")
 
-    address_segment = person.address_segments[-1]
+    address_segment = person.address_segments[0]
     return jsonify(AddressSchema().dump(address_segment))
 
 
@@ -54,7 +54,7 @@ def create_address(payload, person_id):
 
         # If the start_date provided is not greater than most recent
         # address segment start_date, raise an Exception.
-        last_address = person.address_segments[-1]
+        last_address = person.address_segments[0]
         if last_address.start_date > payload.get("start_date"):
             abort(404, description="The start date for this new segment must be greater than most recent address")
         else:
